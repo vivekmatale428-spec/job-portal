@@ -1,15 +1,16 @@
 <?php
 
-$conn = pg_connect("
-host=dpg-d6beq00boq4c73fjl5h0-a 
-port=5432 
-dbname=job_portal_i8bj 
-user=job_portal_i8bj_user 
-password=RENDER_PASSWORD_HERE
-");
+$database_url = getenv("DATABASE_URL");
+
+if (!$database_url) {
+    // जर environment variable नसेल तर direct URL वापर
+    $database_url = "postgresql://USERNAME:PASSWORD@dpg-d6beq00boq4c73fjl5h0-a/job_portal_i8bj";
+}
+
+$conn = pg_connect($database_url);
 
 if (!$conn) {
-    die("Connection failed");
+    die("Database connection failed.");
 }
 
 ?>
