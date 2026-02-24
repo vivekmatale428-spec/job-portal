@@ -1,19 +1,15 @@
 <?php
-/**
- * Database connection - Job Portal Finder
- */
-session_start();
-require_once __DIR__ . '/constants.php';
 
-define('DB_HOST', '127.0.0.1');
-define('DB_USER', 'root');
-define('DB_PASS', '123');
-define('DB_NAME', 'job_portal');
-
-$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$conn = pg_connect("
+host=dpg-d6beq00boq4c73fjl5h0-a 
+port=5432 
+dbname=job_portal_i8bj 
+user=job_portal_i8bj_user 
+password=RENDER_PASSWORD_HERE
+");
 
 if (!$conn) {
-    die('Database connection failed: ' . mysqli_connect_error());
+    die("Connection failed");
 }
 
-mysqli_set_charset($conn, 'utf8mb4');
+?>
