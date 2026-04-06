@@ -1,8 +1,8 @@
+# PHP ची Official Image वापरा
 FROM php:8.2-apache
 
-RUN apt-get update && apt-get install -y libpq-dev \
-    && docker-php-ext-install pgsql pdo_pgsql
+# mysqli Extension Install करा
+RUN docker-php-ext-install mysqli
 
+# तुमच्या Project च्या File Copy करा
 COPY . /var/www/html/
-
-EXPOSE 80

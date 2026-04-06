@@ -12,6 +12,24 @@ $recent = mysqli_query($conn, "SELECT j.*, e.company_name, c.name AS category_na
     WHERE j.status = 'approved' ORDER BY j.created_at DESC LIMIT 8");
 $categories = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC LIMIT 8");
 
+// Simple stats for homepage
+$stats_jobs = 0;
+$stats_employers = 0;
+$stats_seekers = 0;
+
+if ($res = mysqli_query($conn, "SELECT COUNT(*) AS total FROM jobs WHERE status = 'approved'")) {
+    $row = mysqli_fetch_assoc($res);
+    $stats_jobs = (int) ($row['total'] ?? 0);
+}
+if ($res = mysqli_query($conn, "SELECT COUNT(*) AS total FROM employers")) {
+    $row = mysqli_fetch_assoc($res);
+    $stats_employers = (int) ($row['total'] ?? 0);
+}
+if ($res = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users")) {
+    $row = mysqli_fetch_assoc($res);
+    $stats_seekers = (int) ($row['total'] ?? 0);
+}
+
 $page_title = 'Home';
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -30,6 +48,31 @@ require_once __DIR__ . '/includes/navbar.php';
             </div>
             <div class="col-lg-5 d-none d-lg-block text-center">
                 <i class="bi bi-briefcase-fill display-1 opacity-25"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-4 bg-white">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-value"><?php echo number_format($stats_jobs); ?></div>
+                    <div class="stat-label">Active jobs</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-value"><?php echo number_format($stats_employers); ?></div>
+                    <div class="stat-label">Verified employers</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="stat-card h-100">
+                    <div class="stat-value"><?php echo number_format($stats_seekers); ?></div>
+                    <div class="stat-label">Registered job seekers</div>
+                </div>
             </div>
         </div>
     </div>
